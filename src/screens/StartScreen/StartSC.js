@@ -18,10 +18,10 @@ const StartSC = () => {
           <Image className="w-32 h-32" source={require('@/assets/logo.png')} />
         </View>
       </View>
-      <View className="flex items-center">
+      <View className="flex items-center w-[90%] mt-16">
         <Text
           style={GlobalStyles.text}
-          className="font-bold text-4xl text-center text-[#141414]">
+          className="text-black font-bold text-4xl text-center ">
           Affordable quality rides made easy
         </Text>
       </View>
