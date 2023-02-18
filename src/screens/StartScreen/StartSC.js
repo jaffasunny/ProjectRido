@@ -1,29 +1,26 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  Button,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Linking} from 'react-native';
 
-import GlobalStyles from '@/constants/GlobalStyles';
+import GlobalStyles from './../../constants/GlobalStyles';
+import {Button} from '@rneui/themed';
 
 const StartSC = () => {
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <View className="flex">
         <View className="flex-1 absolute w-full h-72">
           <Image
             className="w-full h-full"
-            source={require('@/assets/gradient.png')}
+            source={require('./../../assets/gradient.png')}
           />
         </View>
         <View className="justify-end items-center w-full h-60 ml-auto">
-          <Image className="w-32 h-32" source={require('@/assets/logo.png')} />
+          <Image
+            className="w-32 h-32"
+            source={require('./../../assets/logo.png')}
+          />
         </View>
       </View>
       <View className="flex items-center mt-16">
@@ -35,39 +32,36 @@ const StartSC = () => {
           </Text>
           <Text
             style={GlobalStyles.text}
-            className="text-black text-base text-center font-normal  mt-[26] mb-[100]">
+            className="text-black text-base text-center font-normal  mt-[26] mb-[90]">
             With Rido’s Ridesharing, you can now book the best rides and split
             the fare, and pay way less than traditional ride-hailing services.
           </Text>
 
           <View className="self-center mb-7">
             <View style={{width: 150}}>
-              {/* <Button
+              <Button
                 title="Get started"
                 color="#312E81"
+                buttonStyle={{borderRadius: 6, width: 150, height: 50}}
                 titleStyle={{
-                  color: 'black',
+                  color: 'white',
                   fontSize: 16,
-                  textTransform: 'uppercase',
                 }}
-              /> */}
-              <TouchableOpacity
-                className="bg-indigo-900 py-2"
-                onPress={() => {}}>
-                <Text className="text-base text-white text-center">
-                  Get started
-                </Text>
-              </TouchableOpacity>
+                style={{padding: 5}}
+              />
             </View>
           </View>
           <Text className="text-base text-black text-center">
             Already have an account?
           </Text>
-          <Text
-            className="text-center text-base text-indigo-900"
-            onPress={() => Linking.openURL('https://google.com')}>
-            Login
-          </Text>
+          <Button
+            type="clear"
+            title="Login"
+            titleStyle={{
+              color: '#312E81',
+            }}
+            onPress={() => Linking.openURL('https://google.com')}
+          />
         </View>
       </View>
     </SafeAreaView>

@@ -1,11 +1,16 @@
+import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import StartSC from '@/screens/StartScreen/StartSC';
+import StartSC from './screens/StartScreen/StartSC';
+
+// import StartSC from '~/screens/StartScreen/StartSC';
 
 function App() {
   return (
-    <SafeAreaProvider>
-      <StartSC />
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <SafeAreaProvider>
+        <StartSC />
+      </SafeAreaProvider>
+    </NavigationContainer>
   );
 }
 
