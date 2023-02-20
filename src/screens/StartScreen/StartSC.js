@@ -1,12 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import {View, Image, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Linking} from 'react-native';
 
 import GlobalStyles from './../../constants/GlobalStyles';
 import {Button} from '@rneui/themed';
 
-const StartSC = () => {
+const StartSC = ({navigation}) => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex">
@@ -48,6 +47,7 @@ const StartSC = () => {
                   fontSize: 16,
                 }}
                 style={{padding: 5}}
+                onPress={() => navigation.navigate('signup')}
               />
             </View>
           </View>
@@ -60,7 +60,7 @@ const StartSC = () => {
             titleStyle={{
               color: '#312E81',
             }}
-            onPress={() => Linking.openURL('https://google.com')}
+            onPress={() => navigation.navigate('login')}
           />
         </View>
       </View>
