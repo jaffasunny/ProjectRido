@@ -108,7 +108,7 @@ const Login = ({navigation}) => {
                   fontSize: 16,
                 }}
                 style={{padding: 5}}
-                onPress={() => navigation.navigate('signup')}
+                onPress={() => navigation.navigate('main')}
               />
             </View>
           </View>
