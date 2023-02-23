@@ -7,23 +7,15 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import {Avatar, Button, Icon} from '@rneui/themed';
+import {DrawerActions} from '@react-navigation/native';
+import Main from '../../screens/Main/Main';
 
-// function Feed({navigation}) {
-//   return (
-//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-//       <Text>Feed Screen</Text>
-//       <Button title="Open drawer" onPress={() => navigation.openDrawer()} />
-//       <Button title="Toggle drawer" onPress={() => navigation.toggleDrawer()} />
-//     </View>
-//   );
-// }
-
-function Notifications({navigation}) {
+function Feed({navigation}) {
   return (
-    <View
-      className="bg-white"
-      style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Hello</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>Feed Screen</Text>
+      <Button title="Open drawer" onPress={() => navigation.openDrawer()} />
+      <Button title="Toggle drawer" onPress={() => navigation.toggleDrawer()} />
     </View>
   );
 }
@@ -33,12 +25,8 @@ function CustomDrawerContent(props) {
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       <DrawerItem
-        label="Close drawer"
+        label="Hello World"
         onPress={() => props.navigation.closeDrawer()}
-      />
-      <DrawerItem
-        label="Toggle drawer"
-        onPress={() => props.navigation.toggleDrawer()}
       />
     </DrawerContentScrollView>
   );
@@ -46,7 +34,7 @@ function CustomDrawerContent(props) {
 
 const Drawer = createDrawerNavigator();
 
-export default function MyDrawer(props) {
+export default function MyDrawer({navigation}) {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -55,8 +43,11 @@ export default function MyDrawer(props) {
         },
         header: () => {
           return (
-            <View className="w-full bg-white flex flex-row justify-between items-center">
-              <Button color="#fff" onPress={() => navigation.openDrawer()}>
+            <View className="w-full bg-white flex flex-row justify-between items-center p-2">
+              <Button
+                color="#fff"
+                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                style={{backgroundColor: 'lightBlue'}}>
                 <Icon name="menu" color="#000" />
               </Button>
               <Image
@@ -67,25 +58,14 @@ export default function MyDrawer(props) {
                 size={32}
                 rounded
                 title="Rd"
-                containerStyle={{backgroundColor: 'blue', marginRight: 5}}
+                containerStyle={{backgroundColor: '#059669'}}
               />
             </View>
           );
         },
       }}
       drawerContent={props => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen
-        name="Notifications"
-        component={Notifications}
-        // options={{
-        //   headerTitle: props => {
-        //     <Image
-        //       style={{width: 50, height: 50}}
-        //       source={require('./../../assets/logo3.png')}
-        //     />;
-        //   },
-        // }}
-      />
+      <Drawer.Screen name="Welcome" component={Main} />
     </Drawer.Navigator>
   );
 }

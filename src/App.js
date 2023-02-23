@@ -6,8 +6,8 @@ import StartSC from './screens/StartScreen/StartSC';
 import Login from './screens/Login/Login';
 import Signup from './screens/Signup/Signup';
 import SignupPhone from './screens/Signup/SignupPhone';
-import SignupVerify from './screens/Signup/SignupVerify';
-import Main from './screens/Main/Main';
+import SignupVerify from './screens/Signup/SignupVerify'; 
+import MyDrawer from './utils/Drawer/Drawer';
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -43,8 +43,8 @@ function App() {
           />
           <Stack.Screen
             options={{headerShown: false}}
-            name="main"
-            component={Main}
+            name="drawerScreens"
+            component={MyDrawer}
           />
         </Stack.Navigator>
       </SafeAreaProvider>

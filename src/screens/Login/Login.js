@@ -93,7 +93,7 @@ const Login = ({navigation}) => {
                   fontSize: 16,
                 }}
                 style={{padding: 5}}
-                onPress={() => navigation.navigate('StartScreen')}>
+                onPress={() => navigation.navigate('startScreen')}>
                 <Icon name="chevron-left" color="#312E81" />
                 <Text className="text-base text-indigo-900 font-normal">
                   Back
@@ -108,7 +108,7 @@ const Login = ({navigation}) => {
                   fontSize: 16,
                 }}
                 style={{padding: 5}}
-                onPress={() => navigation.navigate('main')}
+                onPress={() => navigation.navigate('drawerScreens')}
               />
             </View>
           </View>
