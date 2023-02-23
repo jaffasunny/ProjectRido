@@ -6,9 +6,10 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import {Avatar, Button, Icon} from '@rneui/themed';
+import {Button, Icon} from '@rneui/themed';
 import {DrawerActions} from '@react-navigation/native';
 import Main from '../../screens/Main/Main';
+import Avatar from '../Avatar/Avatar';
 
 function Feed({navigation}) {
   return (
@@ -54,12 +55,7 @@ export default function MyDrawer({navigation}) {
                 className="w-30 h-30"
                 source={require('./../../assets/logo3.png')}
               />
-              <Avatar
-                size={32}
-                rounded
-                title="Rd"
-                containerStyle={{backgroundColor: '#059669'}}
-              />
+              <Avatar size={32} rounded title="Rd" backgroundColor="#059669" />
             </View>
           );
         },
