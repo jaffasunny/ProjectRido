@@ -94,7 +94,7 @@ const SignupVerify = ({navigation}) => {
                   fontSize: 16,
                 }}
                 style={{padding: 5}}
-                onPress={() => navigation.navigate('main')}
+                onPress={() => navigation.navigate('drawerScreens')}
               />
             </View>
           </View>

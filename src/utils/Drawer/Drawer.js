@@ -26,8 +26,8 @@ function CustomDrawerContent(props) {
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       <DrawerItem
-        label="Hello World"
-        onPress={() => props.navigation.closeDrawer()}
+        label="Back"
+        onPress={() => props.navigation.navigate('startScreen')}
       />
     </DrawerContentScrollView>
   );
