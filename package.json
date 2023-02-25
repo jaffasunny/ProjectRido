@@ -10,7 +10,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-native-mapbox-gl/maps": "^8.6.0-beta.0",
     "@react-navigation/drawer": "6.4.1",
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
