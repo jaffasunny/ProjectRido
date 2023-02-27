@@ -1,6 +1,7 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
 import {Button} from '@rneui/themed';
+import Mapbox from '../../components/Mapbox/Mapbox.js';
 
 const Main = () => {
   return (
@@ -36,6 +37,8 @@ const Main = () => {
       </View>
       <View className="mt-6 pl-2">
         <Text className="font-bold text-2xl text-black">Places around you</Text>
+
+        <Mapbox />
       </View>
     </View>
   );
