@@ -1,13 +1,14 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
-import {Button} from '@rneui/themed';
-import Mapbox from '../../components/Mapbox/Mapbox.js';
+import Map from './../../components/Map/Map';
 
-const Main = () => {
+const Main = ({navigation}) => {
   return (
     <View className="h-full bg-white">
       <View className="flex-row justify-between p-2">
-        <View className="w-44 h-36 relative">
+        <View
+          className="w-44 h-36 relative"
+          onPress={() => navigation.naivate('')}>
           <Image
             className="w-full h-full absolute"
             source={require('./../../assets/bgGradient1.png')}
@@ -37,8 +38,8 @@ const Main = () => {
       </View>
       <View className="mt-6 pl-2">
         <Text className="font-bold text-2xl text-black">Places around you</Text>
-
-        <Mapbox />
+          
+        <Map />
       </View>
     </View>
   );
