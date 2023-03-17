@@ -34,7 +34,7 @@ function InputAutocomplete({label, placeholder, onPlaceSelected}) {
   );
 }
 
-const Map = () => {
+const MapWithDirection = () => {
   // 67.0644496, 24.9196887
   const defaultCoordinates = [67.0644496, 24.9196887];
   const [location, setLocation] = useState(defaultCoordinates);
@@ -240,4 +240,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;
+export default MapWithDirection;

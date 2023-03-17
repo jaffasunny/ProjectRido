@@ -6,13 +6,12 @@ import {enableLatestRenderer} from 'react-native-maps';
 import StartSC from './screens/StartScreen/StartSC';
 import Login from './screens/Login/Login';
 import Signup from './screens/Signup/Signup';
-import SignupPhone from './screens/Signup/SignupPhone';
-import SignupVerify from './screens/Signup/SignupVerify';
 import MyDrawer from './utils/Drawer/Drawer';
+import RideSharing from './screens/misc/RideSharing';
 
 function App() {
   enableLatestRenderer();
-  
+
   const Stack = createNativeStackNavigator();
 
   return (
@@ -31,18 +30,13 @@ function App() {
           />
           <Stack.Screen
             options={{headerShown: false}}
-            name="signup-phone"
-            component={SignupPhone}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="signup-verify"
-            component={SignupVerify}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
             name="login"
             component={Login}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="rideSharing"
+            component={RideSharing}
           />
           <Stack.Screen
             options={{headerShown: false}}

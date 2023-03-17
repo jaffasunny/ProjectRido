@@ -38,7 +38,7 @@ const Main = ({navigation}) => {
       </View>
       <View className="mt-6 pl-2">
         <Text className="font-bold text-2xl text-black">Places around you</Text>
-          
+
         <Map />
       </View>
     </View>
