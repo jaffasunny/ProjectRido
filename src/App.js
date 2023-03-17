@@ -8,6 +8,8 @@ import Login from './screens/Login/Login';
 import Signup from './screens/Signup/Signup';
 import MyDrawer from './utils/Drawer/Drawer';
 import RideSharing from './screens/misc/RideSharing';
+import Booking from './screens/misc/Booking';
+import BookSuccess from './screens/misc/BookSuccess';
 
 function App() {
   enableLatestRenderer();
@@ -42,6 +44,16 @@ function App() {
             options={{headerShown: false}}
             name="drawerScreens"
             component={MyDrawer}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="bookingScreen"
+            component={Booking}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="bookingSuccess"
+            component={BookSuccess}
           />
         </Stack.Navigator>
       </SafeAreaProvider>
