@@ -1,12 +1,51 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Button, Icon} from '@rneui/base';
 
-const RideSharing = () => {
+const RideSharing = ({navigation}) => {
   return (
-    <View>
-      <Text>RideSharing</Text>
-    </View>
-  )
-}
+    <SafeAreaView className="bg-white">
+      <View className="mx-3 mt-3">
+        <TouchableOpacity
+          className="items-start"
+          onPress={() => navigation.navigate('startScreen')}>
+          <Icon size={35} name="chevron-left" />
+        </TouchableOpacity>
+      </View>
+      <View className="flex items-center">
+        <View className="w-80 h-full gap-y-6">
+          <Image
+            className="w-full h-3/6"
+            source={require('./../../assets/group.png')}
+          />
 
-export default RideSharing
+          <Text className="text-black font-bold text-2xl text-center">
+            Travel in shared rides and split fare
+          </Text>
+
+          <Text className="text-black font-bold text-sm text-center mb-6">
+            Ridesharing enables you to allow other people along your route to
+            travel with you to destinations that are close to your own. This
+            way, your fare is split between you and your co-passengers according
+            to the distances travelled.{' '}
+          </Text>
+
+          <Button
+            title="Start Ridesharing"
+            color="#312E81"
+            buttonStyle={{borderRadius: 6, width: '100%', height: 50}}
+            titleStyle={{
+              color: 'white',
+              fontSize: 16,
+            }}
+            style={{padding: 5}}
+            onPress={() => navigation.navigate('drawerScreens')}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default RideSharing;
