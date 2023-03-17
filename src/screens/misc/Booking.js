@@ -5,7 +5,6 @@ import {Button, Icon} from '@rneui/base';
 
 const Booking = ({navigation}) => {
   let [isBooked, setIsBooked] = useState(false);
-  console.log('isBooked', isBooked);
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,7 +30,10 @@ const Booking = ({navigation}) => {
             <View className="flex-row">
               <View className="h-24">
                 <Image
-                  style={{height: '100%', objectFit: 'contain'}}
+                  style={{
+                    height: '100%',
+                    objectFit: 'contain',
+                  }}
                   source={require('./../../assets/startToEnd.png')}
                 />
               </View>
