@@ -1,4 +1,4 @@
-import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {
   StyleSheet,
   View,
@@ -11,6 +11,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import {GOOGLE_API_KEY} from './../../../env/Keys';
 import {useEffect, useRef, useState} from 'react';
 import MapViewDirections from 'react-native-maps-directions';
+import Geolocation from 'react-native-geolocation-service';
 
 // https://docs.expo.dev/versions/latest/sdk/map-view/
 // https://www.npmjs.com/package/react-native-google-places-autocomplete
@@ -51,10 +52,34 @@ export default function App({navigation}) {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [showDirections, setShowDirections] = useState(false);
+  const [postionCoord, setPostionCoord] = useState({
+    latitude: 40.76711,
+    longitude: -73.979704,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  });
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
   const mapRef = useRef(null);
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const {latitude, longitude} = position.coords;
+        const region = {
+          latitude,
+          longitude,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        };
+        setPostionCoord(region);
+        mapRef.current.animateToRegion(region, 1000);
+      },
+      error => console.log(error),
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  }, []);
 
   useEffect(() => {
     origin && destination ? setIsDisabled(false) : '';
@@ -129,7 +154,7 @@ export default function App({navigation}) {
         ref={mapRef}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
-        initialRegion={INITIAL_POSITION}>
+        initialRegion={postionCoord}>
         {origin && <Marker coordinate={origin} />}
         {destination && <Marker coordinate={destination} />}
         {showDirections && origin && destination && (
@@ -140,6 +165,15 @@ export default function App({navigation}) {
             strokeColor="#6644ff"
             strokeWidth={4}
             onReady={traceRouteOnReady}
+          />
+        )}
+        {origin || destination ? (
+          ''
+        ) : (
+          <Marker
+            title="Yor are here"
+            description="This is a description"
+            coordinate={postionCoord}
           />
         )}
       </MapView>

@@ -11,6 +11,8 @@ import RideSharing from './screens/misc/RideSharing';
 import Booking from './screens/misc/Booking';
 import BookSuccess from './screens/misc/BookSuccess';
 
+import '../ignoreWarnings';
+
 function App() {
   enableLatestRenderer();
 
