@@ -34,7 +34,6 @@ function InputAutocomplete({label, placeholder, onPlaceSelected}) {
 
 const SelectRoute = ({navigation}) => {
   const {map} = useSelector(state => state.map);
-  console.log('🚀 ~ file: SelectRoute.js:35 ~ SelectRoute ~ map:', map);
 
   const edgePaddingValue = 70;
 

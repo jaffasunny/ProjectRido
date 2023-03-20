@@ -1,18 +1,10 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Button, Icon} from '@rneui/base';
 
 const Booking = ({navigation}) => {
   let [isBooked, setIsBooked] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate('bookingSuccess');
-    }, 3000);
-
-    // clearTimeout(timeout);
-  }, [isBooked]);
 
   return (
     <SafeAreaView className="bg-white">
@@ -121,9 +113,23 @@ const Booking = ({navigation}) => {
               </Text>
 
               {isBooked ? (
-                <Text className="text-center font-normal text-[10px] text-[#535353] mt-8">
-                  Captain will arrive soon
-                </Text>
+                <View className="flex-row items-center justify-between mt-8">
+                  <Text className="text-center font-normal text-lg text-black">
+                    Captain will arrive soon
+                  </Text>
+
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('bookingSuccess')}>
+                    <Image
+                      style={{
+                        width: 44,
+                        height: 44,
+                        objectFit: 'contain',
+                      }}
+                      source={require('./../../assets/phone-call.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
               ) : (
                 ''
               )}

@@ -80,8 +80,7 @@ const MapWithDirection = () => {
             setLocation([
               position?.coords?.longitude,
               position?.coords?.latitude,
-            ]);
-            console.log(location);
+            ]); 
           },
           error => {
             // See error code charts below.

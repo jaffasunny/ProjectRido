@@ -6,12 +6,15 @@ import {
   Text,
   TouchableOpacity,
   StatusBar,
+  Modal,
+  Image,
 } from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {GOOGLE_API_KEY} from './../../../env/Keys';
 import {useEffect, useRef, useState} from 'react';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
+import {Button, Icon, Overlay} from '@rneui/themed';
 
 // https://docs.expo.dev/versions/latest/sdk/map-view/
 // https://www.npmjs.com/package/react-native-google-places-autocomplete
@@ -61,6 +64,8 @@ export default function App({navigation}) {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [visible, setVisible] = useState(false);
+
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -89,6 +94,16 @@ export default function App({navigation}) {
       mapRef.current?.fitToCoordinates([origin, destination], {edgePadding});
     }
   }, [origin, destination]);
+
+  const toggleOverlay = () => {
+    setVisible(true);
+
+    setTimeout(() => {
+      setVisible(false);
+
+      navigation.navigate('bookingScreen');
+    }, 3000);
+  };
 
   const moveTo = async position => {
     const camera = await mapRef.current?.getCamera();
@@ -128,6 +143,29 @@ export default function App({navigation}) {
 
   return (
     <View style={styles.container}>
+      <Overlay
+        isVisible={visible}
+        onBackdropPress={toggleOverlay}
+        overlayStyle={{
+          width: 300,
+          height: 200,
+
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+
+          borderRadius: 8,
+        }}>
+        <Image
+          style={{width: 200, height: 100}}
+          source={require('./../../assets/loader2.gif')}
+        />
+
+        <Text className="font-bold text-black text-xl">
+          Searching for a ride
+        </Text>
+      </Overlay>
+
       <View style={styles.searchContainer}>
         <InputAutocomplete
           placeholder="Current location"
@@ -184,7 +222,9 @@ export default function App({navigation}) {
             ...styles.button,
             backgroundColor: isDisabled ? '#ADABCD' : '#312E81',
           }}
-          onPress={() => navigation.navigate('bookingScreen')}
+          onPress={() => {
+            toggleOverlay();
+          }}
           disabled={isDisabled}>
           <Text style={styles.buttonText}>Find a ride</Text>
         </TouchableOpacity>

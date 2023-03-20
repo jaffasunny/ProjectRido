@@ -15,8 +15,7 @@ const Map = () => {
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      position => {
-        console.log('HELOO', position.coords);
+      position => { 
         const {latitude, longitude} = position.coords;
         const region = {
           latitude,

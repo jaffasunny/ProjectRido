@@ -5,6 +5,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import GlobalStyles from '../../constants/GlobalStyles';
 import {Button, Input, Icon, CheckBox} from '@rneui/themed';
 import Success from '../misc/Success';
+import DropDown from '../../utils/DropDown/DropDown';
 
 const Signup = ({navigation}) => {
   const [focusBorder, setfocusBorder] = useState(false);
@@ -71,7 +72,13 @@ const Signup = ({navigation}) => {
                 onBlur={e => setfocusBorder([2, false])}
               />
             </View>
+
             <View className="mt-3">
+              <Text className="text-black mb-1">Gender</Text>
+              <DropDown />
+            </View>
+
+            <View className="mt-3 -z-10">
               <Text
                 style={GlobalStyles.text}
                 className="text-black font-medium text-sm mb-1">
@@ -97,7 +104,7 @@ const Signup = ({navigation}) => {
                 onBlur={e => setfocusBorder([3, false])}
               />
             </View>
-            <View className="mt-3">
+            <View className="mt-3 -z-10">
               <Text
                 style={GlobalStyles.text}
                 className="text-black font-medium text-sm mb-1">
