@@ -4,9 +4,9 @@ import {Button, Input} from '@rneui/themed';
 
 const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
   const [focusBorder, setfocusBorder] = useState(false);
-  
+
   return (
-    <View className="bg-white h-full justify-start items-center">
+    <View className="bg-white h-full items-center">
       <View className="my-7 w-[90%]">
         <Text className="text-black font-medium text-sm mb-1">Card number</Text>
         <Input
