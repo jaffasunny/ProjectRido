@@ -12,6 +12,9 @@ import Booking from './screens/misc/Booking';
 import BookSuccess from './screens/misc/BookSuccess';
 
 import '../ignoreWarnings';
+import {Provider} from 'react-redux';
+import store from './store';
+import PaymentScreen from './screens/Payment/PaymentScreen';
 
 function App() {
   enableLatestRenderer();
@@ -19,47 +22,54 @@ function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <NavigationContainer>
-      <SafeAreaProvider>
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="startScreen"
-            component={StartSC}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="signup"
-            component={Signup}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="login"
-            component={Login}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="rideSharing"
-            component={RideSharing}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="drawerScreens"
-            component={MyDrawer}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="bookingScreen"
-            component={Booking}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="bookingSuccess"
-            component={BookSuccess}
-          />
-        </Stack.Navigator>
-      </SafeAreaProvider>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <SafeAreaProvider>
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="startScreen"
+              component={StartSC}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="signup"
+              component={Signup}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="login"
+              component={Login}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="rideSharing"
+              component={RideSharing}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="drawerScreens"
+              component={MyDrawer}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="bookingScreen"
+              component={Booking}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="bookingSuccess"
+              component={BookSuccess}
+            />
+            {/* <Stack.Screen
+              options={{headerShown: false}}
+              name="payment"
+              component={PaymentScreen}
+            /> */}
+          </Stack.Navigator>
+        </SafeAreaProvider>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

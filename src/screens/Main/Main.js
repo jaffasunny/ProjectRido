@@ -15,6 +15,9 @@ import {useEffect, useRef, useState} from 'react';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
 import {Button, Icon, Overlay} from '@rneui/themed';
+import {useDispatch} from 'react-redux';
+import {AddRoute} from '../../store/slice/routeSlice';
+import {useRoute} from '@react-navigation/native';
 
 // https://docs.expo.dev/versions/latest/sdk/map-view/
 // https://www.npmjs.com/package/react-native-google-places-autocomplete
@@ -67,6 +70,8 @@ export default function App({navigation}) {
   const [visible, setVisible] = useState(false);
 
   const mapRef = useRef(null);
+  const currRoute = useRoute();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -84,6 +89,9 @@ export default function App({navigation}) {
       error => console.log(error),
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     );
+
+    // console.log('from', currRoute.name);
+    // dispatch(AddRoute(currRoute.name));
   }, []);
 
   useEffect(() => {
