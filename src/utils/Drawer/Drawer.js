@@ -16,11 +16,11 @@ import AddNewCard from '../../screens/Payment/AddNewCard';
 import About from '../../screens/About/About';
 
 function CustomDrawerContent(props) {
-  const {state, ...rest} = props;
-  const newState = {...state};
-  newState.routes = newState.routes.filter(
-    item => item.name !== 'Add new card',
-  );
+  // const {state, ...rest} = props;
+  // const newState = {...state};
+  // newState.routes = newState.routes.filter(
+  //   item => item.name !== 'AddNewCard',
+  // );
 
   return (
     <DrawerContentScrollView
@@ -29,7 +29,7 @@ function CustomDrawerContent(props) {
         display: 'flex',
         height: '100%',
       }}>
-      <DrawerItemList state={newState} {...rest} />
+      <DrawerItemList {...props} />
 
       <View className="items-center justify-end h-3/5 mb-7">
         <Button
@@ -139,7 +139,7 @@ export default function MyDrawer({navigation}) {
       />
 
       <Drawer.Screen
-        name="Add new card"
+        name="AddNewCard"
         // component={AddNewCard}
         options={{
           header: () => (
@@ -155,6 +155,7 @@ export default function MyDrawer({navigation}) {
               </View>
             </View>
           ),
+          drawerItemStyle: {display: 'none'},
         }}>
         {() => (
           <AddNewCard

@@ -35,7 +35,7 @@ const PaymentScreen = ({navigation, paymentDetails}) => {
           fontSize: 16,
         }}
         style={{padding: 5}}
-        onPress={() => navigation.navigate('Add new card')}
+        onPress={() => navigation.navigate('AddNewCard')}
       />
     </View>
   ) : (
