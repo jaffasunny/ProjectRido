@@ -14,7 +14,6 @@ import BookSuccess from './screens/misc/BookSuccess';
 import '../ignoreWarnings';
 import {Provider} from 'react-redux';
 import store from './store';
-import PaymentScreen from './screens/Payment/PaymentScreen';
 
 function App() {
   enableLatestRenderer();

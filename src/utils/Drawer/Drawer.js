@@ -59,33 +59,12 @@ function CustomDrawerContent(props) {
 const Drawer = createDrawerNavigator();
 
 export default function MyDrawer({navigation}) {
-  // const title = getHeaderTitle(options, route.name);
-  // console.log(title);
+  const [paymentDetails, setPaymentDetails] = React.useState({});
 
   return (
     <Drawer.Navigator
-      // screenOptions={{
-      //   drawerStyle: {
-      //     backgroundColor: '#fff',
-      //   },
-      //   header: () => (
-      //     <View className="w-full bg-white flex flex-row justify-between items-center p-2">
-      //       <Button
-      //         color="#fff"
-      //         onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-      //         style={{backgroundColor: 'lightBlue'}}>
-      //         <Icon name="menu" color="#000" />
-      //       </Button>
-      //       <Image
-      //         className="w-30 h-30"
-      //         source={require('./../../assets/logo3.png')}
-      //       />
-      //       <Avatar size={32} rounded title="Rd" backgroundColor="#059669" />
-      //     </View>
-      //   ),
-      // }}
       drawerContent={props => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Welcome"
         options={{
           header: () => (
@@ -105,10 +84,10 @@ export default function MyDrawer({navigation}) {
           ),
         }}
         component={Main}
-      />
+      /> */}
       <Drawer.Screen
         name="Payment method"
-        component={PaymentScreen}
+        // component={PaymentScreen}
         options={{
           header: () => (
             <View className="w-full bg-white flex flex-row items-center p-2 shadow-lg shadow-gray-500/30">
@@ -123,11 +102,17 @@ export default function MyDrawer({navigation}) {
               </View>
             </View>
           ),
-        }}
-      />
+        }}>
+        {() => (
+          <PaymentScreen
+            navigation={navigation}
+            paymentDetails={paymentDetails}
+          />
+        )}
+      </Drawer.Screen>
       <Drawer.Screen
         name="Add new card"
-        component={AddNewCard}
+        // component={AddNewCard}
         options={{
           header: () => (
             <View className="w-full bg-white flex flex-row items-center p-2 shadow-lg shadow-gray-500/30">
@@ -142,8 +127,15 @@ export default function MyDrawer({navigation}) {
               </View>
             </View>
           ),
-        }}
-      />
+        }}>
+        {() => (
+          <AddNewCard
+            navigation={navigation}
+            paymentDetails={paymentDetails}
+            setPaymentDetails={setPaymentDetails}
+          />
+        )}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 }

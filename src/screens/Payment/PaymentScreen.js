@@ -1,9 +1,11 @@
 import {View, Text, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Icon} from '@rneui/themed';
 
-const PaymentScreen = ({navigation}) => {
-  return (
+const PaymentScreen = ({navigation, paymentDetails}) => {
+  useEffect(() => console.log(paymentDetails), [paymentDetails]);
+
+  return paymentDetails ? (
     <View className="bg-white h-full justify-center items-center">
       <Image
         style={{width: 177, objectFit: 'contain'}}
@@ -36,6 +38,8 @@ const PaymentScreen = ({navigation}) => {
         onPress={() => navigation.navigate('Add new card')}
       />
     </View>
+  ) : (
+    ''
   );
 };
 
