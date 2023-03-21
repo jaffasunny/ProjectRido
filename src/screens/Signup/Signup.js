@@ -31,8 +31,7 @@ const Signup = ({navigation}) => {
               <Input
                 name="fullname"
                 inputContainerStyle={{
-                  borderColor:
-                    focusBorder[0] === 1 && focusBorder[1] ? 'blue' : '#D4D4D4',
+                  borderColor: focusBorder[0] === 1 ? 'blue' : '#D4D4D4',
                   borderEndWidth: 1,
                   borderStartWidth: 1,
                   borderTopWidth: 1,
@@ -56,8 +55,7 @@ const Signup = ({navigation}) => {
               <Input
                 name="email"
                 inputContainerStyle={{
-                  borderColor:
-                    focusBorder[0] === 2 && focusBorder[1] ? 'blue' : '#D4D4D4',
+                  borderColor: focusBorder[0] === 2 ? 'blue' : '#D4D4D4',
                   borderEndWidth: 1,
                   borderStartWidth: 1,
                   borderTopWidth: 1,
@@ -88,8 +86,7 @@ const Signup = ({navigation}) => {
                 name="password"
                 secureTextEntry={true}
                 inputContainerStyle={{
-                  borderColor:
-                    focusBorder[0] === 3 && focusBorder[1] ? 'blue' : '#D4D4D4',
+                  borderColor: focusBorder[0] === 3 ? 'blue' : '#D4D4D4',
                   borderEndWidth: 1,
                   borderStartWidth: 1,
                   borderTopWidth: 1,
@@ -114,8 +111,7 @@ const Signup = ({navigation}) => {
                 name="repassword"
                 secureTextEntry={true}
                 inputContainerStyle={{
-                  borderColor:
-                    focusBorder[0] === 4 && focusBorder[1] ? 'blue' : '#D4D4D4',
+                  borderColor: focusBorder[0] === 4 ? 'blue' : '#D4D4D4',
                   borderEndWidth: 1,
                   borderStartWidth: 1,
                   borderTopWidth: 1,

@@ -12,6 +12,7 @@ import Avatar from '../Avatar/Avatar';
 import PaymentScreen from '../../screens/Payment/PaymentScreen';
 import {useSelector} from 'react-redux';
 import {getHeaderTitle} from '@react-navigation/elements';
+import AddNewCard from '../../screens/Payment/AddNewCard';
 
 function CustomDrawerContent(props) {
   return (
@@ -110,7 +111,7 @@ export default function MyDrawer({navigation}) {
         component={PaymentScreen}
         options={{
           header: () => (
-            <View className="w-full bg-white flex flex-row items-center p-2">
+            <View className="w-full bg-white flex flex-row items-center p-2 shadow-lg shadow-gray-500/30">
               <Button
                 color="#fff"
                 onPress={() => navigation.navigate('Welcome')}
@@ -119,6 +120,25 @@ export default function MyDrawer({navigation}) {
               </Button>
               <View className="self-center items-center justify-center w-[80%]">
                 <Text className="font-bold text-lg">Payment method</Text>
+              </View>
+            </View>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Add new card"
+        component={AddNewCard}
+        options={{
+          header: () => (
+            <View className="w-full bg-white flex flex-row items-center p-2 shadow-lg shadow-gray-500/30">
+              <Button
+                color="#fff"
+                onPress={() => navigation.navigate('Payment method')}
+                style={{backgroundColor: 'lightBlue'}}>
+                <Icon name="chevron-left" color="#000" />
+              </Button>
+              <View className="self-center items-center justify-center w-[80%]">
+                <Text className="font-bold text-lg">Add new card</Text>
               </View>
             </View>
           ),
