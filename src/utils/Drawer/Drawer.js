@@ -110,15 +110,16 @@ export default function MyDrawer({navigation}) {
         component={PaymentScreen}
         options={{
           header: () => (
-            <View className="w-full bg-white flex flex-row justify-between items-center p-2">
+            <View className="w-full bg-white flex flex-row items-center p-2">
               <Button
                 color="#fff"
-                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                onPress={() => navigation.navigate('Welcome')}
                 style={{backgroundColor: 'lightBlue'}}>
-                <Icon name="menu" color="#000" />
+                <Icon name="chevron-left" color="#000" />
               </Button>
-              <Text className="font-bold text-lg">Payment method</Text>
-              <Avatar size={32} rounded title="Rd" backgroundColor="#059669" />
+              <View className="self-center items-center justify-center w-[80%]">
+                <Text className="font-bold text-lg">Payment method</Text>
+              </View>
             </View>
           ),
         }}
