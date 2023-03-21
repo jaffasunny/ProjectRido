@@ -4,7 +4,7 @@ import {Button, Input} from '@rneui/themed';
 
 const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
   const [focusBorder, setfocusBorder] = useState(false);
-
+  
   return (
     <View className="bg-white h-full justify-start items-center">
       <View className="my-7 w-[90%]">
@@ -19,6 +19,7 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
             padding: 0,
             borderRadius: 4,
           }}
+          value={paymentDetails?.card_no}
           containerStyle={{
             height: 50,
             paddingHorizontal: 0,
@@ -45,6 +46,7 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
             padding: 0,
             borderRadius: 4,
           }}
+          value={paymentDetails?.card_holder_name}
           containerStyle={{
             height: 50,
             paddingHorizontal: 0,
@@ -75,6 +77,7 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
               padding: 0,
               borderRadius: 4,
             }}
+            value={paymentDetails?.card_exp}
             containerStyle={{
               height: 50,
               paddingHorizontal: 0,
@@ -98,6 +101,7 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
               padding: 0,
               borderRadius: 4,
             }}
+            value={paymentDetails?.card_cvc}
             containerStyle={{
               height: 50,
               paddingHorizontal: 0,

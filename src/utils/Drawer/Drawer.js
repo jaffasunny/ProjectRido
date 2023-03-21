@@ -64,7 +64,7 @@ export default function MyDrawer({navigation}) {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawerContent {...props} />}>
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name="Welcome"
         options={{
           header: () => (
@@ -84,7 +84,7 @@ export default function MyDrawer({navigation}) {
           ),
         }}
         component={Main}
-      /> */}
+      />
       <Drawer.Screen
         name="Payment method"
         // component={PaymentScreen}
@@ -127,6 +127,7 @@ export default function MyDrawer({navigation}) {
               </View>
             </View>
           ),
+          drawerLabel: () => null,
         }}>
         {() => (
           <AddNewCard
