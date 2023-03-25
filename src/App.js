@@ -17,7 +17,7 @@ import store from './store';
 
 function App() {
   enableLatestRenderer();
-
+  
   const Stack = createNativeStackNavigator();
 
   return (

@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   StatusBar,
-  Modal,
   Image,
 } from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
@@ -14,10 +13,9 @@ import {GOOGLE_API_KEY} from './../../../env/Keys';
 import {useEffect, useRef, useState} from 'react';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import {Button, Icon, Overlay} from '@rneui/themed';
-import {useDispatch} from 'react-redux';
-import {AddRoute} from '../../store/slice/routeSlice';
-import {useRoute} from '@react-navigation/native';
+import {Overlay} from '@rneui/themed';
+import {PermissionsAndroid} from 'react-native';
+import Geocoder from 'react-native-geocoding';
 
 // https://docs.expo.dev/versions/latest/sdk/map-view/
 // https://www.npmjs.com/package/react-native-google-places-autocomplete
@@ -35,13 +33,20 @@ const INITIAL_POSITION = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-function InputAutocomplete({placeholder, onPlaceSelected}) {
+function InputAutocomplete({
+  inputRef,
+  currAddressName,
+  placeholder,
+  onPlaceSelected,
+}) {
   return (
     <>
       <GooglePlacesAutocomplete
         styles={{textInput: styles.input}}
         placeholder={placeholder || ''}
         fetchDetails
+        debounce={200}
+        ref={inputRef}
         onPress={(data, details = null) => {
           onPlaceSelected(details);
         }}
@@ -68,31 +73,81 @@ export default function App({navigation}) {
   const [duration, setDuration] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
   const [visible, setVisible] = useState(false);
-
+  const [currLocationName, setCurrLocationName] = useState({});
   const mapRef = useRef(null);
-  const currRoute = useRoute();
-  const dispatch = useDispatch();
+  const inputRef = useRef(null);
+
+  var addressComponent;
+
+  Geocoder.init(GOOGLE_API_KEY);
+
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Geolocation Permission',
+          message: 'Can we access your location?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      console.log('granted', granted);
+      if (granted === 'granted') {
+        console.log('You can use Geolocation');
+        return true;
+      } else {
+        console.log('You cannot use Geolocation');
+        return false;
+      }
+    } catch (err) {
+      return false;
+    }
+  };
+
+  const getLocation = () => {
+    const result = requestLocationPermission();
+    result.then(res => {
+      console.log('res is:', res);
+      if (res) {
+        Geolocation.getCurrentPosition(
+          position => {
+            const {latitude, longitude} = position.coords;
+            const region = {
+              latitude,
+              longitude,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            };
+            setPostionCoord(region);
+            mapRef.current.animateToRegion(region, 1000);
+          },
+          error => {
+            // See error code charts below.
+            console.log(error.code, error.message);
+            setPostionCoord(false);
+          },
+          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+        );
+      }
+    });
+  };
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      position => {
-        const {latitude, longitude} = position.coords;
-        const region = {
-          latitude,
-          longitude,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        };
-        setPostionCoord(region);
-        mapRef.current.animateToRegion(region, 1000);
-      },
-      error => console.log(error),
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
+    getLocation();
 
-    // console.log('from', currRoute.name);
-    // dispatch(AddRoute(currRoute.name));
-  }, []);
+    // Setting current location name in the Google Places Input as default value
+    Geocoder.from(postionCoord.latitude, postionCoord.longitude)
+      .then(json => {
+        setCurrLocationName(json.results[0].address_components[0]);
+      })
+      .catch(error => console.warn(error));
+
+    if (inputRef.current) {
+      inputRef.current.setAddressText(currLocationName.long_name);
+    }
+  }, [addressComponent]);
 
   useEffect(() => {
     origin && destination ? setIsDisabled(false) : '';
@@ -132,8 +187,6 @@ export default function App({navigation}) {
 
   const traceRouteOnReady = args => {
     if (args) {
-      // args.distance
-      // args.duration
       setDistance(args.distance);
       setDuration(args.duration);
     }
@@ -175,8 +228,14 @@ export default function App({navigation}) {
       </Overlay>
 
       <View style={styles.searchContainer}>
+        {console.log(
+          'addressComponent?.long_name',
+          addressComponent?.long_name,
+        )}
         <InputAutocomplete
-          placeholder="Current location"
+          inputRef={inputRef}
+          currAddressName={currLocationName?.long_name}
+          placeholder={'Current Address'}
           onPlaceSelected={details => {
             onPlaceSelected(details, 'origin');
           }}

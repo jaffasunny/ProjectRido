@@ -16,10 +16,9 @@ const RideSharing = ({navigation}) => {
       <View className="flex items-center">
         <View className="w-80 h-full gap-y-6">
           <Image
-            className="w-full h-3/6"
+            style={{width: '100%', height: 350, objectFit: 'contain'}}
             source={require('./../../assets/group.png')}
           />
-
           <Text className="text-black font-bold text-2xl text-center">
             Travel in shared rides and split fare
           </Text>

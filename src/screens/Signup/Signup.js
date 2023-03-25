@@ -37,6 +37,7 @@ const Signup = ({navigation}) => {
                   borderTopWidth: 1,
                   padding: 0,
                   borderRadius: 4,
+                  borderColor: '#dfdfdf',
                 }}
                 containerStyle={{
                   height: 50,
@@ -61,6 +62,7 @@ const Signup = ({navigation}) => {
                   borderTopWidth: 1,
                   padding: 0,
                   borderRadius: 4,
+                  borderColor: '#dfdfdf',
                 }}
                 containerStyle={{
                   height: 50,
@@ -73,7 +75,7 @@ const Signup = ({navigation}) => {
 
             <View className="mt-3">
               <Text className="text-black mb-1">Gender</Text>
-              <DropDown />
+              <DropDown selectedItemContainerStyle={{borderColor: 'gray'}} />
             </View>
 
             <View className="mt-3 -z-10">
@@ -92,6 +94,7 @@ const Signup = ({navigation}) => {
                   borderTopWidth: 1,
                   padding: 0,
                   borderRadius: 4,
+                  borderColor: '#dfdfdf',
                 }}
                 containerStyle={{
                   height: 50,
@@ -117,6 +120,7 @@ const Signup = ({navigation}) => {
                   borderTopWidth: 1,
                   padding: 0,
                   borderRadius: 4,
+                  borderColor: '#dfdfdf',
                 }}
                 containerStyle={{
                   height: 50,

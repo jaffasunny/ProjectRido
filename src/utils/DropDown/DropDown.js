@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React, {useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-const DropDown = () => {
+const DropDown = ({selectedItemContainerStyle}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
@@ -12,6 +12,9 @@ const DropDown = () => {
 
   return (
     <DropDownPicker
+      containerStyle={{borderColor: 'red'}}
+      dropDownContainerStyle={{borderColor: '#dfdfdf'}}
+      style={{borderRadius: 4, borderColor: '#dfdfdf'}}
       open={open}
       value={value}
       items={items}
