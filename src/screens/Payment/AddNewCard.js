@@ -1,12 +1,30 @@
 import {View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Button, Input} from '@rneui/themed';
+import CusDatePicker from '../../utils/DatePicker/DatePicker';
+import DatePicker from 'react-native-date-picker';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
   const [focusBorder, setfocusBorder] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   return (
     <View className="bg-white h-full items-center">
+      <DatePicker
+        modal
+        open={open}
+        date={date}
+        onConfirm={date => {
+          setOpen(false);
+          setDate(date);
+          setPaymentDetails({...paymentDetails, card_exp: date});
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
       <View className="my-7 w-[90%]">
         <Text className="text-black font-medium text-sm mb-1">Card number</Text>
         <Input
@@ -36,6 +54,7 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
         <Text className="text-black font-medium text-sm mb-1">
           Card holder’s name
         </Text>
+
         <Input
           name="cardHolderName"
           inputContainerStyle={{
@@ -51,8 +70,12 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
             height: 50,
             paddingHorizontal: 0,
           }}
-          onFocus={e => setfocusBorder([2, true])}
-          onBlur={e => setfocusBorder([2, false])}
+          onFocus={e => {
+            setfocusBorder([2, true]);
+          }}
+          onBlur={e => {
+            setfocusBorder([2, false]);
+          }}
           onChangeText={value => {
             setPaymentDetails({
               ...paymentDetails,
@@ -77,15 +100,20 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
               padding: 0,
               borderRadius: 4,
             }}
-            value={paymentDetails?.card_exp}
+            value={`${date.getDate()} / ${
+              date.getMonth() + 1
+            } / ${date.getFullYear()}`}
             containerStyle={{
               height: 50,
               paddingHorizontal: 0,
             }}
-            onFocus={e => setfocusBorder([3, true])}
-            onBlur={e => setfocusBorder([3, false])}
-            onChangeText={value => {
-              setPaymentDetails({...paymentDetails, card_exp: value});
+            onFocus={e => {
+              setfocusBorder([3, true]);
+              setOpen(true);
+            }}
+            onBlur={e => {
+              setfocusBorder([3, false]);
+              setOpen(false);
             }}
           />
         </View>
@@ -93,6 +121,7 @@ const AddNewCard = ({navigation, paymentDetails, setPaymentDetails}) => {
           <Text className="text-black font-medium text-sm mb-1">CVC</Text>
           <Input
             name="cvc"
+            keyboardType="numeric"
             inputContainerStyle={{
               borderColor: focusBorder[0] === 4 ? 'blue' : '#D4D4D4',
               borderEndWidth: 1,

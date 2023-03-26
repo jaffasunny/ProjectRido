@@ -33,12 +33,7 @@ const INITIAL_POSITION = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-function InputAutocomplete({
-  inputRef,
-  currAddressName,
-  placeholder,
-  onPlaceSelected,
-}) {
+function InputAutocomplete({inputRef, placeholder, onPlaceSelected, flag}) {
   return (
     <>
       <GooglePlacesAutocomplete
@@ -48,7 +43,7 @@ function InputAutocomplete({
         debounce={200}
         ref={inputRef}
         onPress={(data, details = null) => {
-          onPlaceSelected(details);
+          onPlaceSelected(details, flag);
         }}
         query={{
           key: GOOGLE_API_KEY,
@@ -63,9 +58,10 @@ export default function App({navigation}) {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [showDirections, setShowDirections] = useState(false);
+  // 24.919624, 67.064371
   const [postionCoord, setPostionCoord] = useState({
-    latitude: 40.76711,
-    longitude: -73.979704,
+    latitude: 24.919624,
+    longitude: 67.064371,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
@@ -74,10 +70,10 @@ export default function App({navigation}) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [visible, setVisible] = useState(false);
   const [currLocationName, setCurrLocationName] = useState({});
+  const [location, setLocation] = useState(null);
+  const [address, setAddress] = useState(null);
   const mapRef = useRef(null);
   const inputRef = useRef(null);
-
-  var addressComponent;
 
   Geocoder.init(GOOGLE_API_KEY);
 
@@ -121,6 +117,7 @@ export default function App({navigation}) {
               longitudeDelta: 0.0121,
             };
             setPostionCoord(region);
+            setCurrLocationName({});
             mapRef.current.animateToRegion(region, 1000);
           },
           error => {
@@ -136,18 +133,22 @@ export default function App({navigation}) {
 
   useEffect(() => {
     getLocation();
+  }, []);
 
+  useEffect(() => {
     // Setting current location name in the Google Places Input as default value
-    Geocoder.from(postionCoord.latitude, postionCoord.longitude)
-      .then(json => {
-        setCurrLocationName(json.results[0].address_components[0]);
-      })
-      .catch(error => console.warn(error));
-
-    if (inputRef.current) {
-      inputRef.current.setAddressText(currLocationName.long_name);
+    if (!currLocationName.long_name) {
+      Geocoder.from(postionCoord.latitude, postionCoord.longitude)
+        .then(json => {
+          setCurrLocationName(json?.results[0]?.formatted_address);
+        })
+        .catch(error => console.warn(error));
     }
-  }, [addressComponent]);
+    if (inputRef.current) {
+      inputRef.current.setAddressText(currLocationName);
+      onPlaceSelected(postionCoord, 'origin');
+    }
+  }, [currLocationName]);
 
   useEffect(() => {
     origin && destination ? setIsDisabled(false) : '';
@@ -195,8 +196,12 @@ export default function App({navigation}) {
   const onPlaceSelected = (details, flag) => {
     const set = flag === 'origin' ? setOrigin : setDestination;
     const position = {
-      latitude: details?.geometry.location.lat || 0,
-      longitude: details?.geometry.location.lng || 0,
+      latitude: details?.geometry?.location?.lat
+        ? details?.geometry.location.lat || 0
+        : details?.latitude,
+      longitude: details?.geometry?.location?.lng
+        ? details?.geometry.location.lng || 0
+        : details?.longitude,
     };
     set(position);
     moveTo(position);
@@ -228,14 +233,8 @@ export default function App({navigation}) {
       </Overlay>
 
       <View style={styles.searchContainer}>
-        {console.log(
-          'addressComponent?.long_name',
-          addressComponent?.long_name,
-        )}
         <InputAutocomplete
           inputRef={inputRef}
-          currAddressName={currLocationName?.long_name}
-          placeholder={'Current Address'}
           onPlaceSelected={details => {
             onPlaceSelected(details, 'origin');
           }}
