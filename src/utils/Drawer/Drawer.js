@@ -16,12 +16,6 @@ import AddNewCard from '../../screens/Payment/AddNewCard';
 import About from '../../screens/About/About';
 
 function CustomDrawerContent(props) {
-  // const {state, ...rest} = props;
-  // const newState = {...state};
-  // newState.routes = newState.routes.filter(
-  //   item => item.name !== 'AddNewCard',
-  // );
-
   return (
     <DrawerContentScrollView
       {...props}

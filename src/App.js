@@ -17,7 +17,7 @@ import store from './store';
 
 function App() {
   enableLatestRenderer();
-  
+
   const Stack = createNativeStackNavigator();
 
   return (
@@ -60,11 +60,6 @@ function App() {
               name="bookingSuccess"
               component={BookSuccess}
             />
-            {/* <Stack.Screen
-              options={{headerShown: false}}
-              name="payment"
-              component={PaymentScreen}
-            /> */}
           </Stack.Navigator>
         </SafeAreaProvider>
       </NavigationContainer>

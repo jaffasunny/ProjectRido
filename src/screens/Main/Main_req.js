@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {GOOGLE_API_KEY} from './../../../env/Keys';
-import {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
 import {Overlay} from '@rneui/themed';
@@ -70,7 +70,8 @@ export default function App({navigation}) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [visible, setVisible] = useState(false);
   const [currLocationName, setCurrLocationName] = useState({});
-
+  const [location, setLocation] = useState(null);
+  const [address, setAddress] = useState(null);
   const mapRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -104,11 +105,11 @@ export default function App({navigation}) {
   const getLocation = () => {
     const result = requestLocationPermission();
     result.then(res => {
+      console.log('res is:', res);
       if (res) {
         Geolocation.getCurrentPosition(
           position => {
             const {latitude, longitude} = position.coords;
-
             const region = {
               latitude,
               longitude,
@@ -118,8 +119,8 @@ export default function App({navigation}) {
               // longitudeDelta: LONGITUDE_DELTA,
             };
             setPostionCoord(region);
-            setCurrLocationName('');
-            mapRef.current?.animateToRegion(region, 1000);
+            setCurrLocationName({});
+            mapRef?.current?.animateToRegion(region, 1000);
           },
           error => {
             // See error code charts below.
@@ -136,7 +137,7 @@ export default function App({navigation}) {
     getLocation();
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Setting current location name in the Google Places Input as default value
     if (!currLocationName.long_name) {
       Geocoder.from(postionCoord.latitude, postionCoord.longitude)
@@ -145,17 +146,15 @@ export default function App({navigation}) {
         })
         .catch(error => console.warn(error));
     }
-    if (inputRef?.current && currLocationName) {
+    if (inputRef?.current) {
       inputRef?.current?.setAddressText(`${currLocationName}`);
-      // onPlaceSelected(postionCoord, 'origin');
-      setOrigin(postionCoord);
+      onPlaceSelected(postionCoord, 'origin');
     }
   }, [currLocationName]);
 
   useEffect(() => {
     origin && destination ? setIsDisabled(false) : '';
 
-    console.log('🚀 ~ file: Main.js:158 ~ useEffect ~ origin:', origin);
     if (origin && destination) {
       setShowDirections(true);
       mapRef.current?.fitToCoordinates([origin, destination], {edgePadding});
@@ -173,22 +172,10 @@ export default function App({navigation}) {
   };
 
   const moveTo = async position => {
-    try {
-      const camera = await mapRef?.current?.getCamera();
-      if (camera) {
-        camera.center = position;
-        mapRef?.current?.animateToRegion(
-          {
-            latitude: position.latitude,
-            longitude: position.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          },
-          1000,
-        );
-      }
-    } catch (error) {
-      console.error('move to', error);
+    const camera = await mapRef.current?.getCamera();
+    if (camera) {
+      camera.center = position;
+      await mapRef.current?.animateCamera(camera, {duration: 1000});
     }
   };
 
@@ -201,24 +188,23 @@ export default function App({navigation}) {
     left: edgePaddingValue,
   };
 
-  // const traceRouteOnReady = args => {
-  //   if (args) {
-  //     setDistance(args.distance);
-  //     setDuration(args.duration);
-  //   }
-  // };
+  const traceRouteOnReady = args => {
+    if (args) {
+      setDistance(args.distance);
+      setDuration(args.duration);
+    }
+  };
 
   const onPlaceSelected = (details, flag) => {
     const set = flag === 'origin' ? setOrigin : setDestination;
     const position = {
       latitude: details?.geometry?.location?.lat
         ? details?.geometry.location.lat || 0
-        : details?.latitude || 0,
+        : details?.latitude,
       longitude: details?.geometry?.location?.lng
         ? details?.geometry.location.lng || 0
-        : details?.longitude || 0,
+        : details?.longitude,
     };
-
     set(position);
     moveTo(position);
   };
@@ -271,13 +257,12 @@ export default function App({navigation}) {
       </View>
 
       <MapView
-        showsUserLocation={true}
         ref={mapRef}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={postionCoord}>
-        {origin && <Marker title="Origin" coordinate={origin} />}
-        {destination && <Marker title="Destination" coordinate={destination} />}
+        {origin && <Marker coordinate={origin} />}
+        {destination && <Marker coordinate={destination} />}
         {showDirections && origin && destination && (
           <MapViewDirections
             origin={origin}
@@ -285,7 +270,7 @@ export default function App({navigation}) {
             apikey={GOOGLE_API_KEY}
             strokeColor="#6644ff"
             strokeWidth={4}
-            // onReady={traceRouteOnReady}
+            onReady={traceRouteOnReady}
           />
         )}
         {origin || destination ? (
