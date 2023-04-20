@@ -10,6 +10,7 @@ import MyDrawer from './utils/Drawer/Drawer';
 import RideSharing from './screens/misc/RideSharing';
 import Booking from './screens/misc/Booking';
 import BookSuccess from './screens/misc/BookSuccess';
+import Toast from 'react-native-toast-message';
 
 import '../ignoreWarnings';
 import {Provider} from 'react-redux';
@@ -24,6 +25,7 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <SafeAreaProvider>
+          <Toast />
           <Stack.Navigator>
             <Stack.Screen
               options={{headerShown: false}}

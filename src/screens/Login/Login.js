@@ -5,8 +5,26 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import GlobalStyles from '../../constants/GlobalStyles';
 import {Button, Input, Icon} from '@rneui/themed';
 
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {loginValidation} from '../../validation/Validation';
+
 const Login = ({navigation}) => {
   const [focusBorder, setfocusBorder] = useState(false);
+
+  const validationSchema = loginValidation();
+  const formOptions = {
+    mode: 'onChange',
+    resolver: yupResolver(validationSchema),
+  };
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm(formOptions);
+
+  const onSubmit = data => console.log('Form Data!', data);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -37,49 +55,84 @@ const Login = ({navigation}) => {
               className="text-black font-medium text-sm">
               Email address
             </Text>
-            <Input
+            <Controller
+              control={control}
               name="email"
-              inputContainerStyle={{
-                borderColor:
-                  focusBorder[0] === 1 && focusBorder[1] ? 'blue' : '#D4D4D4',
-                borderEndWidth: 1,
-                borderStartWidth: 1,
-                borderTopWidth: 1,
-                padding: 0,
-                borderRadius: 4,
-              }}
-              containerStyle={{
-                height: 50,
-                paddingHorizontal: 0,
-              }}
-              onFocus={e => setfocusBorder([1, true])}
-              onBlur={e => setfocusBorder([1, false])}
+              render={({field: {onChange, value, onBlur}}) => (
+                <Input
+                  inputContainerStyle={{
+                    borderColor:
+                      focusBorder[0] === 1 && focusBorder[1]
+                        ? 'blue'
+                        : errors?.email
+                        ? 'red'
+                        : '#D4D4D4',
+                    borderEndWidth: 1,
+                    borderStartWidth: 1,
+                    borderTopWidth: 1,
+                    padding: 0,
+                    borderRadius: 4,
+                  }}
+                  onChangeText={value => onChange(value)}
+                  value={value}
+                  onBlur={onBlur}
+                  containerStyle={{
+                    height: 50,
+                    paddingHorizontal: 0,
+                  }}
+                  onFocus={e => setfocusBorder([1, true])}
+                />
+              )}
             />
+            {errors?.email?.message ? (
+              <Text className="text-red-500 font-bold">
+                {errors.email.message}
+              </Text>
+            ) : null}
           </View>
+
           <View className="my-3">
             <Text
               style={GlobalStyles.text}
               className="text-black font-medium text-sm">
               Password
             </Text>
-            <Input
+            <Controller
+              control={control}
               name="password"
-              inputContainerStyle={{
-                borderColor:
-                  focusBorder[0] === 2 && focusBorder[1] ? 'blue' : '#D4D4D4',
-                borderEndWidth: 1,
-                borderStartWidth: 1,
-                borderTopWidth: 1,
-                padding: 0,
-                borderRadius: 4,
-              }}
-              containerStyle={{
-                height: 50,
-                paddingHorizontal: 0,
-              }}
-              onFocus={e => setfocusBorder([2, true])}
-              onBlur={e => setfocusBorder([2, false])}
+              render={({field: {onChange, value, onBlur}}) => (
+                <Input
+                  name="password"
+                  inputContainerStyle={{
+                    borderColor:
+                      focusBorder[0] === 2 && focusBorder[1]
+                        ? 'blue'
+                        : errors?.password
+                        ? 'red'
+                        : '#D4D4D4',
+                    borderEndWidth: 1,
+                    borderStartWidth: 1,
+                    borderTopWidth: 1,
+                    padding: 0,
+                    borderRadius: 4,
+                  }}
+                  onChangeText={value => onChange(value)}
+                  value={value}
+                  onBlur={onBlur}
+                  containerStyle={{
+                    height: 50,
+                    paddingHorizontal: 0,
+                  }}
+                  secureTextEntry={true}
+                  onFocus={e => setfocusBorder([2, true])}
+                />
+              )}
             />
+            {errors?.password?.message ? (
+              <Text className="text-red-500 font-bold">
+                {errors.password.message}
+              </Text>
+            ) : null}
           </View>
 
           <View className="self-center mt-7 mb-10">
@@ -108,7 +161,7 @@ const Login = ({navigation}) => {
                   fontSize: 16,
                 }}
                 style={{padding: 5}}
-                onPress={() => navigation.navigate('rideSharing')}
+                onPress={handleSubmit(onSubmit)}
               />
             </View>
           </View>
