@@ -8,9 +8,13 @@ import {Button, Input, Icon} from '@rneui/themed';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {loginValidation} from '../../validation/Validation';
+import {LoginApi} from '../../Api/Post';
+import {AddToken} from '../../store/slice/slice';
+import {useDispatch} from 'react-redux';
 
 const Login = ({navigation}) => {
   const [focusBorder, setfocusBorder] = useState(false);
+  const dispatch = useDispatch();
 
   const validationSchema = loginValidation();
   const formOptions = {
@@ -24,7 +28,12 @@ const Login = ({navigation}) => {
     formState: {errors},
   } = useForm(formOptions);
 
-  const onSubmit = data => console.log('Form Data!', data);
+  const onSubmit = async data => {
+    let token = await LoginApi(data, navigation);
+
+    // Storing in store
+    dispatch(AddToken(token));
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -91,7 +100,7 @@ const Login = ({navigation}) => {
             ) : null}
           </View>
 
-          <View className="my-3">
+          <View className="my-2">
             <Text
               style={GlobalStyles.text}
               className="text-black font-medium text-sm">

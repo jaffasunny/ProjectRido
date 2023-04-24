@@ -22,50 +22,52 @@ function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <SafeAreaProvider>
-          <Toast />
-          <Stack.Navigator>
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="startScreen"
-              component={StartSC}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="signup"
-              component={Signup}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="login"
-              component={Login}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="rideSharing"
-              component={RideSharing}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="drawerScreens"
-              component={MyDrawer}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="bookingScreen"
-              component={Booking}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="bookingSuccess"
-              component={BookSuccess}
-            />
-          </Stack.Navigator>
-        </SafeAreaProvider>
-      </NavigationContainer>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <NavigationContainer>
+          <SafeAreaProvider>
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="startScreen"
+                component={StartSC}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="signup"
+                component={Signup}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="login"
+                component={Login}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="rideSharing"
+                component={RideSharing}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="drawerScreens"
+                component={MyDrawer}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="bookingScreen"
+                component={Booking}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="bookingSuccess"
+                component={BookSuccess}
+              />
+            </Stack.Navigator>
+          </SafeAreaProvider>
+        </NavigationContainer>
+        <Toast />
+      </Provider>
+    </>
   );
 }
 

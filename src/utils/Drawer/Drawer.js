@@ -88,7 +88,6 @@ export default function MyDrawer({navigation}) {
       />
       <Drawer.Screen
         name="Payment method"
-        // component={PaymentScreen}
         options={{
           header: () => (
             <View className="w-full bg-white flex flex-row items-center p-2 shadow-lg shadow-gray-500/100">
@@ -134,7 +133,6 @@ export default function MyDrawer({navigation}) {
 
       <Drawer.Screen
         name="AddNewCard"
-        // component={AddNewCard}
         options={{
           header: () => (
             <View className="w-full bg-white flex flex-row items-center p-2 shadow-lg shadow-gray-500/100">

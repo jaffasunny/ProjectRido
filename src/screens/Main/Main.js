@@ -16,6 +16,8 @@ import Geolocation from 'react-native-geolocation-service';
 import {Overlay} from '@rneui/themed';
 import {PermissionsAndroid} from 'react-native';
 import Geocoder from 'react-native-geocoding';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector} from 'react-redux';
 
 // https://docs.expo.dev/versions/latest/sdk/map-view/
 // https://www.npmjs.com/package/react-native-google-places-autocomplete
@@ -26,12 +28,6 @@ const {width, height} = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const INITIAL_POSITION = {
-  latitude: 40.76711,
-  longitude: -73.979704,
-  latitudeDelta: LATITUDE_DELTA,
-  longitudeDelta: LONGITUDE_DELTA,
-};
 
 function InputAutocomplete({inputRef, placeholder, onPlaceSelected, flag}) {
   return (
@@ -114,8 +110,6 @@ export default function App({navigation}) {
               longitude,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
-              // latitudeDelta: LATITUDE_DELTA,
-              // longitudeDelta: LONGITUDE_DELTA,
             };
             setPostionCoord(region);
             setCurrLocationName('');
@@ -155,7 +149,6 @@ export default function App({navigation}) {
   useEffect(() => {
     origin && destination ? setIsDisabled(false) : '';
 
-    console.log('🚀 ~ file: Main.js:158 ~ useEffect ~ origin:', origin);
     if (origin && destination) {
       setShowDirections(true);
       mapRef.current?.fitToCoordinates([origin, destination], {edgePadding});
@@ -222,6 +215,9 @@ export default function App({navigation}) {
     set(position);
     moveTo(position);
   };
+
+  const token = useSelector(state => state.user.token);
+  console.log('token', token);
 
   return (
     <View style={styles.container}>

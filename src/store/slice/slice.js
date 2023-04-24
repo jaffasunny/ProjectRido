@@ -1,17 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const MapSlice = createSlice({
-  name: 'map',
-  initialState: [],
+const UserSlice = createSlice({
+  name: 'user',
+  initialState: {
+    token: null,
+  },
   reducers: {
-    AddMapDistance(state, action) {
-      state.push({distance: action.payload});
+    AddToken(state, action) {
+      state.token = action.payload;
     },
-    AddMapDuration(state, action) {
-      state.push({duration: action.payload});
+    RemoveToken(state) {
+      state.token = null;
     },
   },
 });
 
-export default MapSlice;
-export const {AddMapDistance, AddMapDuration} = MapSlice.actions;
+export {UserSlice};
+export const {AddToken, RemoveToken} = UserSlice.actions;
