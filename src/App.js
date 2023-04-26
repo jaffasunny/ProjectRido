@@ -13,60 +13,65 @@ import BookSuccess from './screens/misc/BookSuccess';
 import Toast from 'react-native-toast-message';
 
 import '../ignoreWarnings';
-import {Provider} from 'react-redux';
-import store from './store';
+import {useSelector} from 'react-redux';
 
 function App() {
   enableLatestRenderer();
-
   const Stack = createNativeStackNavigator();
+
+  const state = useSelector(state => state);
 
   return (
     <>
-      <Provider store={store}>
-        <NavigationContainer>
-          <SafeAreaProvider>
-            <Stack.Navigator>
-              <Stack.Screen
-                options={{headerShown: false}}
-                name="startScreen"
-                component={StartSC}
-              />
-              <Stack.Screen
-                options={{headerShown: false}}
-                name="signup"
-                component={Signup}
-              />
-              <Stack.Screen
-                options={{headerShown: false}}
-                name="login"
-                component={Login}
-              />
-              <Stack.Screen
-                options={{headerShown: false}}
-                name="rideSharing"
-                component={RideSharing}
-              />
-              <Stack.Screen
-                options={{headerShown: false}}
-                name="drawerScreens"
-                component={MyDrawer}
-              />
-              <Stack.Screen
-                options={{headerShown: false}}
-                name="bookingScreen"
-                component={Booking}
-              />
-              <Stack.Screen
-                options={{headerShown: false}}
-                name="bookingSuccess"
-                component={BookSuccess}
-              />
-            </Stack.Navigator>
-          </SafeAreaProvider>
-        </NavigationContainer>
-        <Toast />
-      </Provider>
+      <NavigationContainer>
+        <SafeAreaProvider>
+          <Stack.Navigator>
+            {!state?.user?.user?.token ? (
+              <>
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="startScreen"
+                  component={StartSC}
+                />
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="signup"
+                  component={Signup}
+                />
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="login"
+                  component={Login}
+                />
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="rideSharing"
+                  component={RideSharing}
+                />
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="drawerScreens"
+                  component={MyDrawer}
+                />
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="bookingScreen"
+                  component={Booking}
+                />
+                <Stack.Screen
+                  options={{headerShown: false}}
+                  name="bookingSuccess"
+                  component={BookSuccess}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </SafeAreaProvider>
+      </NavigationContainer>
+      <Toast />
     </>
   );
 }

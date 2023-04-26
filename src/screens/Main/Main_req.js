@@ -104,8 +104,7 @@ export default function App({navigation}) {
 
   const getLocation = () => {
     const result = requestLocationPermission();
-    result.then(res => {
-      console.log('res is:', res);
+    result.then(res => { 
       if (res) {
         Geolocation.getCurrentPosition(
           position => {
@@ -114,9 +113,7 @@ export default function App({navigation}) {
               latitude,
               longitude,
               latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-              // latitudeDelta: LATITUDE_DELTA,
-              // longitudeDelta: LONGITUDE_DELTA,
+              longitudeDelta: 0.0121, 
             };
             setPostionCoord(region);
             setCurrLocationName({});

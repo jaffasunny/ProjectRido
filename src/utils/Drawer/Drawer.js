@@ -6,16 +6,18 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import {Button, Icon} from '@rneui/themed';
-import {DrawerActions, useRoute} from '@react-navigation/native';
+import {DrawerActions} from '@react-navigation/native';
 import Main from '../../screens/Main/Main';
 import Avatar from '../Avatar/Avatar';
 import PaymentScreen from '../../screens/Payment/PaymentScreen';
-import {useSelector} from 'react-redux';
-import {getHeaderTitle} from '@react-navigation/elements';
+import {useDispatch, useSelector} from 'react-redux';
 import AddNewCard from '../../screens/Payment/AddNewCard';
 import About from '../../screens/About/About';
+import {logout} from '../../store/slice/slice';
 
 function CustomDrawerContent(props) {
+  const state = useSelector(state => state);
+
   return (
     <DrawerContentScrollView
       {...props}
@@ -42,7 +44,9 @@ function CustomDrawerContent(props) {
             fontWeight: 500,
           }}
           style={{padding: 5}}
-          onPress={() => props.navigation.navigate('startScreen')}
+          onPress={() => {
+            props.dispatch(logout());
+          }}
         />
       </View>
 
@@ -61,10 +65,13 @@ const Drawer = createDrawerNavigator();
 
 export default function MyDrawer({navigation}) {
   const [paymentDetails, setPaymentDetails] = React.useState({});
+  const dispatch = useDispatch();
 
   return (
     <Drawer.Navigator
-      drawerContent={props => <CustomDrawerContent {...props} />}>
+      drawerContent={props => (
+        <CustomDrawerContent {...props} dispatch={dispatch} />
+      )}>
       <Drawer.Screen
         name="Welcome"
         options={{

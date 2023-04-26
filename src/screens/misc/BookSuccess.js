@@ -2,9 +2,12 @@ import {View, Text, Image} from 'react-native';
 import React, {useState} from 'react';
 import StarRating from 'react-native-star-rating';
 import {Button} from '@rneui/themed';
+import { useSelector } from 'react-redux';
 
 const BookSuccess = ({navigation}) => {
   const [starRating, setStarRating] = useState(4);
+
+  const state = useSelector(state => state);
 
   return (
     <View className="relative h-full items-center justify-between">
@@ -20,7 +23,7 @@ const BookSuccess = ({navigation}) => {
             Your fare
           </Text>
           <Text className="text-center text-6xl font-bold text-white mt-5">
-            Rs 175
+            Rs {state?.user?.rideDetails?.rider_fare || "175"}
           </Text>
         </View>
 

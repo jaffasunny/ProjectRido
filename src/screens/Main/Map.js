@@ -105,7 +105,6 @@ export default function App({navigation}) {
   const getLocation = () => {
     const result = requestLocationPermission();
     result.then(res => {
-      console.log('res is:', res);
       if (res) {
         Geolocation.getCurrentPosition(
           position => {
@@ -172,13 +171,10 @@ export default function App({navigation}) {
   };
 
   const moveTo = async position => {
-    console.log('move to', position);
     try {
       const camera = await mapRef?.current?.getCamera();
-      console.log('camera', camera);
       if (camera) {
         camera.center = position;
-        console.log(camera);
         mapRef?.current?.animateToRegion(
           {
             latitude: position.latitude,

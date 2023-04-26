@@ -72,8 +72,7 @@ const MapWithDirection = () => {
 
   const getLocation = () => {
     const result = requestLocationPermission();
-    result.then(res => {
-      console.log('res is:', res);
+    result.then(res => { 
       if (res) {
         Geolocation.getCurrentPosition(
           position => {

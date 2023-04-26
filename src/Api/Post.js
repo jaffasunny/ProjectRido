@@ -1,20 +1,5 @@
 import axios from 'axios';
-import Toast from 'react-native-toast-message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const showToast = response => {
-  if (response?.status !== 400) {
-    Toast.show({
-      type: 'success',
-      text1: `${!response?.token ? 'Signup' : 'Login'} Successful`,
-    });
-  } else {
-    Toast.show({
-      type: 'error',
-      text1: response?.data?.detail,
-    });
-  }
-};
+import {showToast} from '../utils/ShowToast/ShowToast';
 
 export const SignUpApi = async (data, genderValue, showToast, setSuccess) => {
   let {email, fullName, password, phone} = data;
@@ -28,7 +13,7 @@ export const SignUpApi = async (data, genderValue, showToast, setSuccess) => {
       phone_number: phone,
     });
 
-    showToast(res?.response);
+    showToast(res);
     setSuccess(true);
   } catch (error) {
     showToast(error?.response);
@@ -44,11 +29,42 @@ export const LoginApi = async (data, navigation) => {
       password,
     });
 
-    showToast({token: res?.data?.token});
-    navigation.navigate('drawerScreens');
+    showToast(res);
 
-    return res?.data?.token;
+    return res?.data;
   } catch (error) {
     showToast(error?.response);
+  }
+};
+
+export const RequestRide = async (
+  riderID,
+  pickup_la,
+  pickup_lo,
+  dropoff_la,
+  dropoff_lo,
+  state,
+  setVisible,
+) => {
+  try {
+    let res = await axios({
+      method: 'POST',
+      url: 'https://rido-api.onrender.com/request_ride',
+      data: {
+        rider_id: parseInt(riderID),
+        pickup_lat: eval(pickup_la),
+        pickup_lon: eval(pickup_lo),
+        dropoff_lat: eval(dropoff_la),
+        dropoff_lon: eval(dropoff_lo),
+      },
+      headers: {
+        Authorization: `Bearer ${state?.user?.user?.token}`,
+      },
+    });
+
+    return res;
+  } catch (error) {
+    showToast(error?.response);
+    setVisible(false);
   }
 };

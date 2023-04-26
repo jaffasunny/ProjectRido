@@ -3,17 +3,42 @@ import {createSlice} from '@reduxjs/toolkit';
 const UserSlice = createSlice({
   name: 'user',
   initialState: {
-    token: null,
+    user: null,
+    coords: null,
+    previewRideData: null,
+    rideDetails: null,
   },
   reducers: {
-    AddToken(state, action) {
-      state.token = action.payload;
+    AddUser(state, action) {
+      state.user = action.payload;
     },
-    RemoveToken(state) {
-      state.token = null;
+    RemoveUser(state) {
+      state.user = null;
+    },
+    AddUserCoords(state, action) {
+      state.coords = action.payload;
+    },
+    AddPreviewRideData(state, action) {
+      state.previewRideData = action.payload;
+    },
+    AddRideDetails(state, action) {
+      state.rideDetails = action.payload;
+    },
+    logout(state) {
+      state.user = null;
+      state.coords = null;
+      state.previewRideData = null;
+      state.rideDetails = null;
     },
   },
 });
 
 export {UserSlice};
-export const {AddToken, RemoveToken} = UserSlice.actions;
+export const {
+  AddUser,
+  RemoveUser,
+  AddUserCoords,
+  AddPreviewRideData,
+  AddRideDetails,
+  logout,
+} = UserSlice.actions;

@@ -6,18 +6,17 @@ import {
   Text,
   TouchableOpacity,
   StatusBar,
-  Image,
 } from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {GOOGLE_API_KEY} from './../../../env/Keys';
 import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import {Overlay} from '@rneui/themed';
 import {PermissionsAndroid} from 'react-native';
 import Geocoder from 'react-native-geocoding';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {RidePreview} from '../../Api/Get';
+import {AddPreviewRideData, AddUserCoords} from '../../store/slice/slice';
 
 // https://docs.expo.dev/versions/latest/sdk/map-view/
 // https://www.npmjs.com/package/react-native-google-places-autocomplete
@@ -61,14 +60,14 @@ export default function App({navigation}) {
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   });
-  const [distance, setDistance] = useState(0);
-  const [duration, setDuration] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [visible, setVisible] = useState(false);
   const [currLocationName, setCurrLocationName] = useState({});
 
   const mapRef = useRef(null);
   const inputRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const user = useSelector(state => state?.user);
 
   Geocoder.init(GOOGLE_API_KEY);
 
@@ -153,17 +152,9 @@ export default function App({navigation}) {
       setShowDirections(true);
       mapRef.current?.fitToCoordinates([origin, destination], {edgePadding});
     }
+
+    dispatch(AddUserCoords([origin, destination]));
   }, [origin, destination]);
-
-  const toggleOverlay = () => {
-    setVisible(true);
-
-    setTimeout(() => {
-      setVisible(false);
-
-      navigation.navigate('bookingScreen');
-    }, 3000);
-  };
 
   const moveTo = async position => {
     try {
@@ -194,13 +185,6 @@ export default function App({navigation}) {
     left: edgePaddingValue,
   };
 
-  // const traceRouteOnReady = args => {
-  //   if (args) {
-  //     setDistance(args.distance);
-  //     setDuration(args.duration);
-  //   }
-  // };
-
   const onPlaceSelected = (details, flag) => {
     const set = flag === 'origin' ? setOrigin : setDestination;
     const position = {
@@ -216,34 +200,16 @@ export default function App({navigation}) {
     moveTo(position);
   };
 
-  const token = useSelector(state => state.user.token);
-  console.log('token', token);
+  const handleClick = async () => {
+    let res = await RidePreview(origin, destination, user);
+
+    dispatch(AddPreviewRideData(res));
+
+    navigation.navigate('bookingScreen');
+  };
 
   return (
     <View style={styles.container}>
-      <Overlay
-        isVisible={visible}
-        onBackdropPress={toggleOverlay}
-        overlayStyle={{
-          width: 300,
-          height: 200,
-
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-
-          borderRadius: 8,
-        }}>
-        <Image
-          style={{width: 200, height: 100}}
-          source={require('./../../assets/loader2.gif')}
-        />
-
-        <Text className="font-bold text-black text-xl">
-          Searching for a ride
-        </Text>
-      </Overlay>
-
       <View style={styles.searchContainer}>
         <InputAutocomplete
           inputRef={inputRef}
@@ -257,13 +223,6 @@ export default function App({navigation}) {
             onPlaceSelected(details, 'destination');
           }}
         />
-
-        {/* {distance && duration ? (
-          <View>
-            <Text>Distance: {distance.toFixed(2)}</Text>
-            <Text>Duration: {Math.ceil(duration)} min</Text>
-          </View>
-        ) : null} */}
       </View>
 
       <MapView
@@ -301,9 +260,7 @@ export default function App({navigation}) {
             ...styles.button,
             backgroundColor: isDisabled ? '#ADABCD' : '#312E81',
           }}
-          onPress={() => {
-            toggleOverlay();
-          }}
+          onPress={handleClick}
           disabled={isDisabled}>
           <Text style={styles.buttonText}>Find a ride</Text>
         </TouchableOpacity>

@@ -9,7 +9,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {loginValidation} from '../../validation/Validation';
 import {LoginApi} from '../../Api/Post';
-import {AddToken} from '../../store/slice/slice';
+import {AddUser} from '../../store/slice/slice';
 import {useDispatch} from 'react-redux';
 
 const Login = ({navigation}) => {
@@ -29,10 +29,10 @@ const Login = ({navigation}) => {
   } = useForm(formOptions);
 
   const onSubmit = async data => {
-    let token = await LoginApi(data, navigation);
+    let user = await LoginApi(data);
 
     // Storing in store
-    dispatch(AddToken(token));
+    dispatch(AddUser(user));
   };
 
   return (

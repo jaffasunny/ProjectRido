@@ -5,15 +5,15 @@ import {Button, Icon} from '@rneui/base';
 
 const RideSharing = ({navigation}) => {
   return (
-    <SafeAreaView className="bg-white">
-      <View className="mx-3 mt-3">
+    <SafeAreaView className="bg-white min-h-screen">
+      {/* <View className="mx-3 mt-3">
         <TouchableOpacity
           className="items-start"
           onPress={() => navigation.navigate('startScreen')}>
           <Icon size={35} name="chevron-left" />
         </TouchableOpacity>
-      </View>
-      <View className="flex items-center">
+      </View> */}
+      <View className="flex items-center justify-center">
         <View className="w-80 h-full gap-y-6">
           <Image
             style={{width: '100%', height: 350, objectFit: 'contain'}}
