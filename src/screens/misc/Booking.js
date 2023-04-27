@@ -26,8 +26,6 @@ const Booking = ({navigation}) => {
 
   const toggleOverlay = async () => {
     try {
-      setVisible(true);
-
       let res = await RequestRide(
         riderID,
         pickup_la,
@@ -36,10 +34,13 @@ const Booking = ({navigation}) => {
         dropoff_lo,
         state,
       );
+      console.log('request ride', res);
 
       if (res?.status === 200) {
+        setVisible(true);
         while (true) {
-          let drivers = await GetDrivers(state, setVisible);
+          let drivers = await GetDrivers(state);
+          console.log('drivers', drivers);
           let _id = drivers?.data?.id;
 
           // setStatus(drivers?.status);
@@ -73,21 +74,23 @@ const Booking = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView className="bg-white">
+    <SafeAreaView className="bg-white min-h-screen">
       <Modal visible={visible} toggleOverlay={toggleOverlay} />
 
-      <View className="mx-3 my-3">
-        <TouchableOpacity
-          className="items-start"
-          onPress={() => navigation.navigate('drawerScreens')}>
-          <Icon size={35} name="chevron-left" />
-        </TouchableOpacity>
-      </View>
+      {!isBooked ? (
+        <View className="mx-3 my-3">
+          <TouchableOpacity
+            className="items-start"
+            onPress={() => navigation.navigate('drawerScreens')}>
+            <Icon size={35} name="chevron-left" />
+          </TouchableOpacity>
+        </View>
+      ) : null}
 
       <View className="flex items-center">
         <View className="h-full gap-y-6">
           <View className="w-80 h-[75%]">
-            <View className="flex-row">
+            <View className={isBooked ? 'flex-row mt-5' : 'flex-row'}>
               <View className="h-24">
                 <Image
                   style={{
@@ -244,26 +247,25 @@ const Booking = ({navigation}) => {
                 </Text>
               </View>
             ) : null}
-            {isBooked ? (
-              <Button
-                title="Cancel Ride"
-                color="#fff"
-                buttonStyle={{
-                  borderRadius: 6,
-                  width: '90%',
-                  height: 50,
-                  alignSelf: 'flex-end',
-                  borderWidth: 1,
-                  borderColor: '#D4D4D4',
-                }}
-                titleStyle={{
-                  color: 'black',
-                  fontSize: 16,
-                }}
-                onPress={() => setIsBooked(false)}
-                style={{padding: 5}}
-              />
-            ) : (
+            {isBooked ? // <Button
+            //   title="Cancel Ride"
+            //   color="#fff"
+            //   buttonStyle={{
+            //     borderRadius: 6,
+            //     width: '90%',
+            //     height: 50,
+            //     alignSelf: 'flex-end',
+            //     borderWidth: 1,
+            //     borderColor: '#D4D4D4',
+            //   }}
+            //   titleStyle={{
+            //     color: 'black',
+            //     fontSize: 16,
+            //   }}
+            //   onPress={() => setIsBooked(false)}
+            //   style={{padding: 5}}
+            // />
+            null : (
               <Button
                 title="Book this ride"
                 color="#312E81"
