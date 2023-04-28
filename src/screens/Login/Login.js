@@ -31,8 +31,10 @@ const Login = ({navigation}) => {
   const onSubmit = async data => {
     let user = await LoginApi(data);
 
-    // Storing in store
+    // // Storing in store
     dispatch(AddUser(user));
+
+    console.log(data);
   };
 
   return (

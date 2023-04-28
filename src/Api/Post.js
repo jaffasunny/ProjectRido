@@ -20,7 +20,7 @@ export const SignUpApi = async (data, genderValue, showToast, setSuccess) => {
   }
 };
 
-export const LoginApi = async (data, navigation) => {
+export const LoginApi = async (data) => {
   let {email, password} = data;
 
   try {

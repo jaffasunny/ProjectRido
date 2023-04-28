@@ -6,6 +6,7 @@ import GlobalStyles from '../../constants/GlobalStyles';
 import {Button, Input, Icon, CheckBox} from '@rneui/themed';
 import Success from '../misc/Success';
 import DropDown from '../../utils/DropDown/DropDown';
+
 import {signUpValidation} from '../../validation/Validation';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Controller, useForm} from 'react-hook-form';
@@ -92,7 +93,7 @@ const Signup = ({navigation}) => {
                   />
                   {errors?.fullName?.message ? (
                     <Text className="text-red-500 font-bold">
-                      {errors?.fullName.message}
+                      {errors?.fullName?.message}
                     </Text>
                   ) : null}
                 </View>
